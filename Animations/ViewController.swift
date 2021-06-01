@@ -8,11 +8,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var redViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var redViewWidthConstraint: NSLayoutConstraint!
 
     var indexButtom = 1
-    
-    var isViewModded = false
-    
+        
     @IBAction func backButtom(_ sender: Any) {
         redView.layer.removeAllAnimations()
         
@@ -39,13 +41,12 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var redView: UIView!
-    
+
     @IBAction func buttom1(_ sender: Any) {
         redView.layer.removeAllAnimations()
 
-        
-        
         switch indexButtom {
+        
         case 1:
             UIView.animate(withDuration: 2.0, animations: {
                 self.redView.backgroundColor = .yellow
@@ -82,12 +83,21 @@ class ViewController: UIViewController {
             }) { isCompeted in
                 self.redView.alpha = 1
             }
-            
+                            			
         case 6:
+
             UIView.animate(withDuration: 2.0, delay: 0, options: [.autoreverse], animations: {
-                self.redView.frame.size = CGSize(width: self.redView.frame.size.width * sqrt(2), height: self.redView.frame.size.width * sqrt(2))
-            })
-     
+                
+                self.redViewWidthConstraint.constant = self.redViewWidthConstraint.constant * sqrt(2)
+                self.redViewHeightConstraint.constant = self.redViewHeightConstraint.constant * sqrt(2)
+                self.view.layoutIfNeeded()
+
+            }) { isCompeted in
+                self.redViewWidthConstraint.constant = self.redViewWidthConstraint.constant / sqrt(2)
+                self.redViewHeightConstraint.constant = self.redViewHeightConstraint.constant / sqrt(2)
+                self.view.layoutIfNeeded()
+            }
+
         case 7:
             UIView.animate(withDuration: 0.8, delay: 0, options: [.repeat], animations: {
                 self.redView.transform = CGAffineTransform(rotationAngle: .pi / 2)
